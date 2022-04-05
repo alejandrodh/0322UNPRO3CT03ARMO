@@ -1,0 +1,19 @@
+.tarjeta{
+    width: 300px;
+    margin-bottom: 30px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.tarjeta img{
+    width: 100%;
+}
+.delete{
+    color: red;
+    display: inline-block;
+    padding: 5px 15px;
+    background-color: #ccc;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+    cursor: pointer;
+}

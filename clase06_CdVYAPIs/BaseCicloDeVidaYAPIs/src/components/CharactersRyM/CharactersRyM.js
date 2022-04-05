@@ -1,11 +1,13 @@
 import React, {Component} from "react";
 import Card from "../Card/Card";
+import './styles.css';
 
 class CharactersRyM extends Component{
     constructor(props){
         super(props);
         this.state={
             characters: [],
+            charactersBkp:[],
             nextPage:'' 
         }
     }
@@ -18,6 +20,7 @@ class CharactersRyM extends Component{
             .then( data => this.setState(
                 { 
                     characters:data.results,
+                    charactersBkp: data.results,
                     nextPage:data.info.next,
                 }
             ))
@@ -31,10 +34,12 @@ class CharactersRyM extends Component{
             .then( data => this.setState(
                 { 
                     characters:this.state.characters.concat(data.results),
+                    charactersBkp: this.state.charactersBkp.concat(data.results),
                     nextPage:data.info.next,
                 }
-            ))
+            ), console.log(this.state.characters.length))
             .catch( error => console.log(error))
+            
     }
 
     borrarTarjeta(id){
@@ -45,6 +50,15 @@ class CharactersRyM extends Component{
         this.setState({
             characters: personajesFiltrados
         })
+        console.log(this.state.characters.length);
+    }
+
+    reset(){
+        this.setState({
+            characters: this.state.charactersBkp
+        })
+        console.log('resetenado');
+        console.log(this.state.charactersBkp.length);
     }
     
 
@@ -53,14 +67,17 @@ class CharactersRyM extends Component{
     render(){
         // console.log(this.state.characters);
         return(
-            <section>
+            <React.Fragment>    
                 <button type="button" onClick={ ()=>this.cargarMas()}>Cargar más</button>
-                { 
-                    this.state.characters.length === 0 ?
-                    <p>Cargando...</p> :
-                    this.state.characters.map( (oneCharacter, idx) => <Card key={oneCharacter.name + idx} characterInfo={oneCharacter} borrar={(pepe)=>this.borrarTarjeta(pepe)}/>)
-                }
-            </section>
+                <button type="button" onClick={()=>this.reset()}> Resetar borrados</button>
+                <section className="card-wrapper">    
+                    { 
+                        this.state.characters.length === 0 ?
+                        <p>Cargando...</p> :
+                        this.state.characters.map( (oneCharacter, idx) => <Card key={oneCharacter.name + idx} characterInfo={oneCharacter} borrar={(pepe)=>this.borrarTarjeta(pepe)}/>)
+                    }
+                </section>
+            </React.Fragment>
         )
     }
 
