@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Image, StyleSheet, FlatList, ActivityIndicator} from 'react-native'
+import {View, Image, StyleSheet} from 'react-native'
 
 function ImageMeme(){
     return(
@@ -7,6 +7,11 @@ function ImageMeme(){
             <Image
                 style={styles.image}
                 source={require('../../../assets/ImageMeme/meme.png')}
+                resizeMode='contain'
+            />
+            <Image
+                style={styles.image}
+                source={{uri: 'https://plantillasdememes.com/img/plantillas/unos-pedillos01644105227.png'}}
                 resizeMode='contain'
             />
         </View>
