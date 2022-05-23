@@ -11,26 +11,26 @@ class Register extends Component {
       userName:'',
       password:'',
       logedIn:false,
-      error:null
+      error:null,
+      message:''
     }
   }
 
   
   componentDidMount(){
-    console.log(this.props)
+    // console.log(this.props.route.params.errorMessage)
     auth.onAuthStateChanged((user)=>{
       console.log(user)
     })
   }
   
-  onSubmit(email, password){
-    auth.createUserWithEmailAndPassword(email, password)
-    .then(response => this.setState({logedIn: true}, ()=> console.log(this.state.logedIn)))
-    .catch(error => this.setState({error: 'Fallo'}, ()=> console.error(error)))
-  
-  }
+
   
   render(){
+    const {signUp} = this.props
+  //  console.log('Este es el error desde Register ' + this.props.route.params.errorMessage)
+  console.log(this.props)
+
     return (
       <View>
         <TextInput
@@ -42,10 +42,14 @@ class Register extends Component {
         <TextInput
           style={styles.input}
           onChangeText={text => this.setState({password: text})}
-          keyboardType='email-address'
-          placeholder='email'
+          keyboardType='default'
+          placeholder='password'
+          secureTextEntry={true}
         />
-        <TouchableOpacity onPress={() => this.onSubmit(this.state.email, this.state.password)}>
+        <TouchableOpacity style={styles.btn} onPress={
+          () => {
+            signUp(this.state.email, this.state.password)
+          }}>
           <Text>
             Register
           </Text>
@@ -54,7 +58,7 @@ class Register extends Component {
         <Text>
           Ya tienes una cuenta?
         </Text>
-        <TouchableOpacity onPress={()=>this.props.navigation.navigate('Login')}>
+        <TouchableOpacity style={styles.btn} onPress={()=>this.props.navigation.navigate('Login')}>
         <Text>
           Ir al login
         </Text>
@@ -67,7 +71,15 @@ class Register extends Component {
 const styles =  StyleSheet.create({
   input:{
     borderWidth:1,
-    borderColor:'red'
+    borderColor:'red',
+    marginTop:16
+  },
+  btn:{
+    flex:1,
+    marginVertical:16,
+    padding:16,
+    borderWidth:1,
+    borderColor:'blue'
   }
 })
 

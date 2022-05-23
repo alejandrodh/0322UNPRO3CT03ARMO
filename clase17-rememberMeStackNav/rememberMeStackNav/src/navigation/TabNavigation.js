@@ -6,7 +6,6 @@ const Tab = createBottomTabNavigator()
 
 export default function TabNavigation(props) {
   const{logout} = props.route.params
-  console.log(logout)
   
     return (
     <Tab.Navigator>
