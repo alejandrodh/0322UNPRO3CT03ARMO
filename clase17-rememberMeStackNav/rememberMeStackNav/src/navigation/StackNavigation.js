@@ -8,7 +8,7 @@ import Home from "../screens/Home";
 import Register from "../screens/Register";
 import { StatusBar } from 'expo-status-bar';
 import TabNavigation from './TabNavigation';
-import Message from '../screens/Message'
+import NewMessage from '../screens/Message'
 
 const Stack = createNativeStackNavigator()
 
@@ -36,24 +36,12 @@ class StackNavigation extends Component{
         .catch(error => console.log(error))
     }
 
-
-
-
-
-
     
     signUp(email, password){
         auth.createUserWithEmailAndPassword(email, password)
         .then(response => this.setState({logedIn: true}, ()=> console.log(this.state.logedIn)))
         .catch(error => this.setState({errorMessage:error.message}))
     }
-
-
-
-
-
-
-    
 
 
     signIn(email, password){
@@ -67,19 +55,13 @@ class StackNavigation extends Component{
     }
 
 
-
-
-
-
-
-
-
-
     newMessage(message){
         db.collection('messages').add({
             owner:auth.currentUser.email,
             createdAt: Date.now(),
-            message:message
+            message:message,
+            likes:[],
+            subMessages:[]
         })
         .then(response => console.log(response))
         .catch(error => console.log(error.message))
@@ -108,7 +90,7 @@ class StackNavigation extends Component{
                             />
                             <Stack.Screen
                                 name='Message'
-                                component={Message}
+                                component={NewMessage}
                                 initialParams={{
                                     newMessage: (message)=> this.newMessage(message)                                    
                                 }}

@@ -2,7 +2,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import React, {Component} from 'react'
 
 
-class Message extends Component {
+class NewMessage extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -54,4 +54,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Message
+export default NewMessage

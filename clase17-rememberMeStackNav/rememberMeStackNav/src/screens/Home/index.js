@@ -1,7 +1,7 @@
-import { View, Text, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, StyleSheet } from 'react-native'
 import React, {Component} from 'react'
 import {db} from '../../firebase/config'
-
+import Message from '../../components/Message'
 
 class Home extends Component {
   constructor(props){
@@ -47,18 +47,33 @@ class Home extends Component {
          <FlatList
          data={this.state.info}
          keyExtractor={item => item.id.toString()}
-         renderItem={({ item }) => <Text>{item.data.message}</Text>}
+         renderItem={({ item }) => <Message info={item}/>}
          />
          }
 
 
 
-        <TouchableOpacity onPress={()=> this.props.navigation.navigate('Message')}>
-          <Text>Enviar mensaje a Facu</Text>
+        <TouchableOpacity style={styles.btn} onPress={()=> this.props.navigation.navigate('Message')}>
+          <Text style={styles.textBtn} >Enviar mensaje a Facu</Text>
         </TouchableOpacity>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  btn:{
+    flex:1,
+    borderWidth:1,
+    borderRadius:5,
+    backgroundColor:'#192A51',
+    paddingVertical:16,
+    paddingHorizontal:8,
+    marginHorizontal:'auto',
+  },
+  textBtn:{
+    color:'white'
+  }
+})
 
 export default Home
