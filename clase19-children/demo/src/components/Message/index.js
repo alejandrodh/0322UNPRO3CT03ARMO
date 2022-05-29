@@ -1,8 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, {Component} from 'react'
 import { FontAwesome } from '@expo/vector-icons'
-import { db, auth } from '../../firebase/config'
-import firebase from 'firebase'
+import { auth } from '../../firebase/config'
 
 class Message extends Component {
     constructor(props){
@@ -32,31 +31,17 @@ class Message extends Component {
     }
 
     like(){
-        const documento = this.props.info
-        db.collection('messages').doc(documento.id).update({
-            likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email)
+        this.setState({
+            miLike:true,
+            cantLikes: this.state.cantLikes + 1
         })
-        .then(response => {
-            this.setState({
-                miLike:true,
-                cantLikes: this.state.cantLikes + 1
-            })
-        })
-        .catch(error => console.log(error))
     }
 
     unlike(){
-        const documento = this.props.info
-        db.collection('messages').doc(documento.id).update({
-            likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email)
+        this.setState({
+            miLike:false,
+            cantLikes: this.state.cantLikes - 1
         })
-        .then(response => {
-            this.setState({
-                miLike:false,
-                cantLikes: this.state.cantLikes - 1
-            })
-        })
-        .catch(error => console.log(error))
     }
 
 
