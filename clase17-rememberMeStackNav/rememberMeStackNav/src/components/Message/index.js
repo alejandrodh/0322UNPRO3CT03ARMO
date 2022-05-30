@@ -54,28 +54,36 @@ class Message extends Component {
     render(){
         const documento = this.props.info.data
         return (
-            <View style={styles.container}>
-                <View>
-                    <Text style={styles.messageOwner}>{documento.owner}</Text>
-                    <Text style={styles.messageText}>{documento.message}</Text>
-                </View>
-                <View style={styles.containerLike}>
-                    <Text style={styles.likesCounter}>{this.state.cantLikes}</Text>
-                    {
-                        this.state.miLike
-                        ?
-                        
-                        <TouchableOpacity onPress={()=> this.unlike()}>
-                            <FontAwesome name='heart' size={24} color='red'/> 
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity onPress={()=> this.like()}>
-                            <FontAwesome name='heart-o' size={24} color='black' /> 
-                        </TouchableOpacity>
+            <>
+                <View style={styles.container}>
+                    <View>
+                        <Text style={styles.messageOwner}>{documento.owner}</Text>
+                        <Text style={styles.messageText}>{documento.message}</Text>
+                    </View>
+                    <View style={styles.containerLike}>
+                        <Text style={styles.likesCounter}>{this.state.cantLikes}</Text>
+                        {
+                            this.state.miLike
+                            ?
+                            
+                            <TouchableOpacity onPress={()=> this.unlike()}>
+                                <FontAwesome name='heart' size={24} color='red'/> 
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity onPress={()=> this.like()}>
+                                <FontAwesome name='heart-o' size={24} color='black' /> 
+                            </TouchableOpacity>
 
-                    }
+                        }
+                    </View>
                 </View>
-            </View>
+                <TouchableOpacity 
+                onPress={
+                    ()=> this.props.navigation.navigate('AddComment', {id: this.props.info.id})
+                    }>
+                    <Text>Comentar</Text>
+                </TouchableOpacity>
+            </>
         )
     }
 }
