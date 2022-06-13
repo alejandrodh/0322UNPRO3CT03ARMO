@@ -10,7 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import TabNavigation from './TabNavigation';
 import NewMessage from '../screens/NewMessage'
 import Comments from '../screens/Comments';
-
+import Colores from '../screens/Colores'
 
 const Stack = createNativeStackNavigator()
 
@@ -56,13 +56,14 @@ class StackNavigation extends Component{
         .catch(error =>this.setState({errorMessage: error.message}))
     }
     
-    newMessage(message){
+    newMessage(message, urlFoto){
         db.collection('messages').add({
             owner:auth.currentUser.email,
             createdAt: Date.now(),
             message:message,
             likes:[],
-            subMessages:[]
+            subMessages:[],
+            foto:urlFoto
         })
         .then(response => console.log(response))
         .catch(error => console.log(error.message))
@@ -92,12 +93,16 @@ class StackNavigation extends Component{
                                 name='Message'
                                 component={NewMessage}
                                 initialParams={{
-                                    newMessage: (message)=> this.newMessage(message)                                    
+                                    newMessage: (message, urlFoto)=> this.newMessage(message, urlFoto)                                    
                                 }}
                             />
                             <Stack.Screen
                             name='Comments'
                             component={Comments}
+                            />
+                            <Stack.Screen
+                            name='Colores'
+                            component={Colores}
                             />
                         </Stack.Group>
                         :

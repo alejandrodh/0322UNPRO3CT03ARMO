@@ -1,40 +1,57 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 import React, {Component} from 'react'
-
+import MiCamara from '../../components/Message/MiCamara'
 
 class NewMessage extends Component {
     constructor(props){
         super(props)
         this.state = {
             message:'',
+            urlFoto:'',
+            mostrarComponenteDeCamara:true
         }
+    }
+
+    cuandoSubaLaImagen(url){
+        this.setState({
+            urlFoto: url,
+            mostrarComponenteDeCamara:false,
+        })
     }
 
 
     render(){
 
         return (
-            <View>
-              <Text>Enviale un mensaje a Facu</Text>
-            <TextInput 
-              style={styles.textarea}
-              onChangeText= {(text)=> this.setState({
-                  message: text
-              })}
-              value={this.state.message}
-            />
-            <TouchableOpacity
-                style={styles.btn}
-                onPress={() => {
-                    this.props.route.params.newMessage(this.state.message)
-                    this.setState({
-                        message:''
-                    })
-                }}
-            >
-              <Text>Enviar mensaje</Text>
-            </TouchableOpacity>
-          </View>
+            <>
+            {
+                this.state.mostrarComponenteDeCamara 
+                ?
+                <MiCamara cuandoSubaLaImagen={(url)=> this.cuandoSubaLaImagen(url)} />
+                :
+                <View>
+                <Text>Enviale un mensaje a Facu</Text>
+                <TextInput 
+                style={styles.textarea}
+                onChangeText= {(text)=> this.setState({
+                    message: text
+                })}
+                value={this.state.message}
+                />
+                <TouchableOpacity
+                    style={styles.btn}
+                    onPress={() => {
+                        this.props.route.params.newMessage(this.state.message, this.state.urlFoto)
+                        this.setState({
+                            message:''
+                        })
+                    }}
+                >
+                <Text>Enviar mensaje</Text>
+                </TouchableOpacity>
+            </View>
+            }
+            </>
         )
     }
 }

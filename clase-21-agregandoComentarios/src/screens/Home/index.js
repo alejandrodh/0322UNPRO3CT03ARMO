@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, StyleSheet } from 'react-native'
 import React, {Component} from 'react'
-import {db} from '../../firebase/config'
+import {db, auth} from '../../firebase/config'
 import Message from '../../components/Message'
 
 class Home extends Component {
@@ -11,9 +11,9 @@ class Home extends Component {
       loading:true
     }
   }
-
+//onSubmit(email){
   componentDidMount(){
-    db.collection('messages').onSnapshot(
+    db.collection('messages').orderBy('owner', 'desc').limit(5).onSnapshot(
       (docs)=>{
         let messages = []
         docs.forEach(
@@ -28,7 +28,6 @@ class Home extends Component {
           info:messages,
           loading:false
         })
-
       }
     )
 
@@ -36,7 +35,7 @@ class Home extends Component {
 
   render(){
     return (
-      <View>
+      <View style={styles.container}>
        <Text>Estos son los Messages recientes:</Text>
 
         {
@@ -55,12 +54,19 @@ class Home extends Component {
         <TouchableOpacity style={styles.btn} onPress={()=> this.props.navigation.navigate('Message')}>
           <Text style={styles.textBtn}>Enviar mensaje a Facu</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btn} onPress={()=> this.props.navigation.navigate('Colores')}>
+          <Text style={styles.textBtn}>Ir a ver colores</Text>
+        </TouchableOpacity>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  container:{
+    flex:1
+  },
   btn:{
     flex:1,
     borderWidth:1,
@@ -69,6 +75,7 @@ const styles = StyleSheet.create({
     paddingVertical:16,
     paddingHorizontal:8,
     marginHorizontal:'auto',
+    marginBottom:40
   },
   textBtn:{
     color:'white'
